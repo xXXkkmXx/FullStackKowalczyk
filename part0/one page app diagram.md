@@ -1,4 +1,5 @@
-```classDiagram
+```mermaid
+classDiagram
     class User {
         +View notes()
         +Add new note()

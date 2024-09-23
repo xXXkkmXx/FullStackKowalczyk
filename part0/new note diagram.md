@@ -1,29 +1,32 @@
 ```mermaid
-sequenceDiagram
-    participant browser
-    participant server
+classDiagram
+    User --> Frontend : Interacts
+    Frontend --> BackendServer : Sends HTTP request
+    BackendServer --> Database : Queries data
+    Database --> BackendServer : Returns data
+    BackendServer --> Frontend : Sends response
+    Frontend --> User : Updates UI
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
-    activate server
-    server-->>browser: HTML document
-    deactivate server
+    class User {
+        +View notes()
+        +Add new note()
+        +Delete note()
+    }
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
-    activate server
-    server-->>browser: the css file
-    deactivate server
+    class Frontend {
+        +Render notes page()
+        +Submit new note via form()
+        +Send delete request()
+    }
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
-    activate server
-    server-->>browser: the JavaScript file
-    deactivate server
+    class BackendServer {
+        +Fetch notes from DB()
+        +Save note to DB()
+        +Delete note from DB()
+    }
 
-    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
-
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
-    activate server
-    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
-    deactivate server
-
-    Note right of browser: The browser executes the callback function that renders the notes
+    class Database {
+        +Store notes()
+        +Retrieve notes()
+    }
 ```

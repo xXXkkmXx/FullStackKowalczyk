@@ -1,4 +1,4 @@
-classDiagram
+```classDiagram
     class User {
         +View notes()
         +Add new note()
@@ -29,3 +29,4 @@ classDiagram
     Database --> BackendServer: Responds
     BackendServer --> SPAFrontend: Sends data
     SPAFrontend --> User: Updates UI dynamically
+```

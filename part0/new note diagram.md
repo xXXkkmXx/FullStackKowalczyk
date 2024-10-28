@@ -10,19 +10,16 @@ classDiagram
     class User {
         +View notes()
         +Add new note()
-        +Delete note()
     }
 
     class Frontend {
         +Render notes page()
         +Submit new note via form()
-        +Send delete request()
     }
 
     class BackendServer {
         +Fetch notes from DB()
         +Save note to DB()
-        +Delete note from DB()
     }
 
     class Database {

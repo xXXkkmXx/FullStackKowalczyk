@@ -1,30 +1,33 @@
 ```mermaid
-classDiagram
-    class User {
-        +View notes()
-        +Add new note()
-    }
-    
-    class SPAFrontend {
-        +Render notes dynamically
-        +Submit new note via AJAX
-        +Update UI without reload
-    }
-    
-    class BackendServer {
-        +Fetch notes from DB()
-        +Save note to DB()
-    }
-    
-    class Database {
-        +Store notes
-        +Retrieve notes
-    }
+sequenceDiagram
+    participant browser
+    participant server
 
-    User --> SPAFrontend: Interacts with
-    SPAFrontend --> BackendServer: AJAX requests
-    BackendServer --> Database: Queries
-    Database --> BackendServer: Responds
-    BackendServer --> SPAFrontend: Sends data
-    SPAFrontend --> User: Updates UI dynamically
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server
+
+    browser->>server POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    active server
+    server-->>browser: post json file
+    deactivate server
+
+    Note right of browser: The browser executes the callback function that renders the notes
+    
 ```

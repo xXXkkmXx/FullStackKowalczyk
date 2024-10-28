@@ -24,7 +24,7 @@ sequenceDiagram
     deactivate server
 
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
-    active server
+    activate server
     server-->>browser: post json file
     deactivate server
 

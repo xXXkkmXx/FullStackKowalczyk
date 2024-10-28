@@ -27,7 +27,5 @@ sequenceDiagram
     activate server
     server-->>browser: post json file
     deactivate server
-
-    Note right of browser: The browser executes the callback function that renders the notes
     
 ```

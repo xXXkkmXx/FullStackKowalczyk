@@ -1,14 +1,12 @@
 import { useState } from 'react'
 
 const Statistic = ({list}) =>{
-  let hlp;
+  let hlp = list[0] + list[1] + list[2];
   let avrg;
-  let positive = list[0]-list[2]/list.length * 100;
-  for(let i = 0;i < list.length;i++){
-    hlp += list[i];
-  }
+  let positive = list[0]/hlp*100;
+
   avrg = hlp / list.length;
-  if(false){
+  if(isNaN(positive)){
     return (
       <p>No feedback given</p>
     )

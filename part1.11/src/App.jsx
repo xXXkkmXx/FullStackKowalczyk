@@ -18,7 +18,7 @@ const Statistic = ({list}) =>{
         <p>bad {list[2]}</p>
         <p>all {hlp}</p>
         <p>average {avrg}</p>
-        <p>positive {positive}%</p>
+        <p>positive {Math.round(positive)}%</p>
       </div>
     )
   }

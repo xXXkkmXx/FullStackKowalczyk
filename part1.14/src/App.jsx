@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 const App = () => {
-  let points = {0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:0};
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -12,15 +11,31 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-  const [selected, setSelected] = useState(0)
-  const poinstCp = {...points};
+  const [selected, setSelected] = useState(0);
+  const [pointsTest,setPointsTest] = useState([0,0,0,0,0,0,0,0]);
+  const TheMostVote = () =>{
+    let hlp = 0;
+    for(let i = 0; i < pointsTest.length;i++){
+      if(pointsTest[i] > pointsTest[hlp]){
+          hlp = i;
+      }
+    }
+    return hlp;
+  }
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]}
-      {points[selected]}
       <p>
-        <button onClick={()=>setSelected(Math.round(Math.random()*8))}>next anecdotes</button>
-        <button onClick={()=>{poinstCp[selected] += 1;console.log(`points: ${points[selected]} pointsCp:${poinstCp[selected]}`)}}>vote</button>
+       has {pointsTest[selected]} votes.
+      </p>
+      <p>
+        <button onClick={()=>setSelected(Math.round(Math.random()*7))}>next anecdotes</button>
+        <button onClick={()=>{const hlp = [...pointsTest];hlp[selected] += 1; setPointsTest(hlp)}}>vote</button>
+      </p>
+      <h1>Ancedote with the most votes</h1>
+      <p>
+        {anecdotes[TheMostVote()]}
       </p>
     </div>
   )

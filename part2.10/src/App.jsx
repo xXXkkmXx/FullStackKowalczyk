@@ -1,16 +1,13 @@
 import { useState } from 'react'
 
 const ShowPersons = ({props}) =>{
+  let names = [];
+  for(let i = 0;i < props.length;i++){
+    names.push(props[i].name);
+  }
   return (
-    props.forEach
-    ((value)=>{
-      <li>{value.name}</li>
-    })
+    names.map((values) => <h3>{values}</h3>)
   )
-}
-const AddName = (event) =>{
-  event.preventDefaults();
-  console.log("button clicked",event.target);
 }
 
 const App = () => {
@@ -18,6 +15,11 @@ const App = () => {
     { name: 'Arto Hellas' }
   ]) 
   const [newName, setNewName] = useState('')
+  
+  const AddName = (event) =>{
+    event.preventDefaults();
+    console.log("button clicked",event.target);
+  }   
 
   return (
     <div>

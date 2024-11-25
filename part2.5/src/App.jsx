@@ -20,13 +20,13 @@ const Content = ({ course }) => {
   return (
     <>
       {course.parts.map((part) => (
-        <p key={part.id}>
+        <p key={part.name}>
           {part.name} {part.exercises}
         </p>
       ))}
     </>
   );
-};
+};  
 
 const Total = ({ course }) => {
   const totalExercises = course.parts.reduce((sum, part) => sum + part.exercises, 0);

@@ -14,7 +14,7 @@ const ShowPersons = ({props,filter}) =>{
 } 
 
 const Delete = (id) =>{
-
+  axios.delete('http://localhost:3001/persons',id)
 }
 
 const App = () => {
@@ -25,13 +25,16 @@ const App = () => {
 
   const AddName = (event) =>{
     event.preventDefault();
+    let Data = {};
     persons.map(person=>{
       if(person.name == newName){
         alert(`${newName} is already added`);
-      }else{
-        // setPersons(persons => ([...persons,{name:newName,number:newNumber}]));  
-        const Data = {name:newName,number:newNumber,id:persons.lastIndexOf.id + 1};
-        axios.post('htpp://localhost:3001/persons')  
+      }else{  
+        Data = {name:newName,number:newNumber,id:persons.lastIndexOf.id + 1};
+        axios.post('http://localhost:3001/persons',Data)
+        .then(response=>{
+          setPersons(persons.concat(response.data));
+        })  
       }
     });
   }   

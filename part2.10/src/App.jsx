@@ -1,6 +1,8 @@
 import { useState,useEffect } from 'react'
 import  axios  from 'axios';
 
+const URL = 'http://localhost:3001/persons';
+
 const ShowPersons = ({props,filter}) =>{
   let names;
   if(filter != ''){
@@ -9,12 +11,14 @@ const ShowPersons = ({props,filter}) =>{
      names = [...props];
   }
   return (
-    names.map((values) => <h3 key={values.name}>{values.name} {values.number} <button onClick={Delete(values.id)}>delete</button></h3>)
+    names.map((values) => <h3 key={values.name}>{values.name} {values.number} <button onClick={(e)=>{Delete(values.id,e)}}>delete</button></h3>)
   )
 } 
 
-const Delete = (id) =>{
-  axios.delete('http://localhost:3001/persons',id)
+
+const Delete = async (iD,event) =>{
+  event.preventDefault();
+  await axios.delete(URL + "/" + iD);
 }
 
 const App = () => {
@@ -23,25 +27,41 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [newFilter,setNewFilter] = useState('');
 
-  const AddName = (event) =>{
+  const AddName = async (event) =>{
     event.preventDefault();
-    let Data = {};
+    
+    let exist = false;
+    let toFix = false;
+    let Data = {name:newName,number:newNumber,id:String(Number(persons.at(-1).id) + 1)};
+    
     persons.map(person=>{
-      if(person.name == newName){
-        alert(`${newName} is already added`);
-      }else{  
-        Data = {name:newName,number:newNumber,id:persons.lastIndexOf.id + 1};
-        axios.post('http://localhost:3001/persons',Data)
-        .then(response=>{
-          setPersons(persons.concat(response.data));
-        })  
+      if(person.name == newName && person.number == newNumber){
+        exist = true;
+      }else if(person.name == newName && person.number != newNumber){
+        toFix = true;
+        Data.id = person.id;
       }
     });
+    if(exist){
+      alert(`${newName} is already added`);
+    }
+    else if(toFix){
+      alert(`${newName} is already added.Would you like to edit this?`);
+      axios.patch(URL + '/' + Data.id ,Data).then(response=>{
+        persons.at(Number(response.data.id)).number = response.data.number;
+      });
+    }
+    else{
+      axios.post(URL,Data)
+      .then(response=>{
+        setPersons(persons.concat(response.data));
+      })  
+    }
   }   
   
   useEffect(()=>{
     axios
-    .get("http://localhost:3001/persons")
+    .get(URL)
     .then(response =>{
       setPersons(response.data);
     })

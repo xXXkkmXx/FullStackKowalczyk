@@ -15,6 +15,30 @@ const ShowPersons = ({props,filter}) =>{
   )
 } 
 
+const Log = ({isFailure,message}) =>{
+  const style = {
+    background_color:"#EEEEEE",
+  }
+  if(isFailure){
+    style.append({color:"#DD0000"});
+    return(
+      <div style={style}>
+        <p>
+          Done {message}
+        </p>
+      </div>
+    )
+  }else{
+    style.append({color:"#00DD00"});
+    return(
+      <div style={style}>
+        <p>
+          Error:{Message}
+        </p>
+      </div>
+    )
+  }
+}
 
 const Delete = async (iD,event) =>{
   event.preventDefault();
@@ -34,7 +58,7 @@ const App = () => {
     let exist = false;
     let toFix = false;
     let Data = {name:newName,number:newNumber,id:String(Number(persons.at(-1).id) + 1)};
-    
+
     persons.map(person=>{
       if(person.name == newName && person.number == newNumber){
         exist = true;

@@ -11,29 +11,19 @@
       "id": "2"
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": "3"
-    },
-    {
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": "4"
     },
     {
-      "id": "5",
-      "name": "Yuri Gagarin",
-      "number": "312510652152"
-    },
-    {
-      "id": "7",
-      "name": "Micheal Smith",
-      "number": "31-39-29102189"
-    },
-    {
       "id": "8",
       "name": "Jian Nu Ren",
       "number": "49-32-1283912"
+    },
+    {
+      "id": "9",
+      "name": "Yuri Gagarin",
+      "number": "75-45-37585237"
     }
   ]
 }

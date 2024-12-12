@@ -19,6 +19,7 @@ const ShowPersons = ({props,filter}) =>{
 const Delete = async (iD,event) =>{
   event.preventDefault();
   await axios.delete(URL + "/" + iD);
+  window.location.reload();
 }
 
 const App = () => {
@@ -48,6 +49,7 @@ const App = () => {
     else if(toFix){
       alert(`${newName} is already added.Would you like to edit this?`);
       axios.patch(URL + '/' + Data.id ,Data).then(response=>{
+        window.location.reload();
         persons.at(Number(response.data.id)).number = response.data.number;
       });
     }

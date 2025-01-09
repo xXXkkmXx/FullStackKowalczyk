@@ -16,28 +16,26 @@ const ShowPersons = ({props,filter}) =>{
 } 
 
 const Log = ({isFailure,message}) =>{
-  const style = {
+  let style = {
     background_color:"#EEEEEE",
+    color: "",
+    display: "none"
   }
-  if(isFailure){
-    style.append({color:"#DD0000"});
-    return(
-      <div style={style}>
-        <p>
-          Done {message}
-        </p>
-      </div>
-    )
+  let msgServer;
+  if(isFailure == true){
+    style.color = "#DD0000";
+    msgServer = "Error";
   }else{
-    style.append({color:"#00DD00"});
-    return(
-      <div style={style}>
-        <p>
-          Error:{Message}
-        </p>
-      </div>
-    )
+    msgServer = "Done";
+    style.color = "#00DD00"; 
   }
+  return( 
+    <div style={style} id="Logger">
+      <p>
+       {msgServer} {message}
+      </p>
+    </div>
+  )
 }
 
 const Delete = async (iD,event) =>{
@@ -51,6 +49,14 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [newFilter,setNewFilter] = useState('');
+  const [newFailure,setNewFailure] = useState(false);
+  const [newMessage,setNewMessage] = useState('');
+
+  const ShowLog = (message,isFailure) =>{
+    setNewFailure(isFailure);
+    setNewMessage(message);
+    document.getElementById("Logger").style = "display:block";
+  }
 
   const AddName = async (event) =>{
     event.preventDefault();
@@ -68,7 +74,7 @@ const App = () => {
       }
     });
     if(exist){
-      alert(`${newName} is already added`);
+      ShowLog(`${newName} is already added`,true);
     }
     else if(toFix){
       alert(`${newName} is already added.Would you like to edit this?`);
@@ -78,6 +84,7 @@ const App = () => {
       });
     }
     else{
+      ShowLog('succesfully added new number',false);
       axios.post(URL,Data)
       .then(response=>{
         setPersons(persons.concat(response.data));
@@ -92,9 +99,9 @@ const App = () => {
       setPersons(response.data);
     })
   },[])
-
   return (
     <div>
+      <Log isFailure={newFailure} message={newMessage}/>
       <h1>Phonebook</h1>
       <div>
         filter shown with

@@ -15,28 +15,7 @@ const ShowPersons = ({props,filter}) =>{
   )
 } 
 
-const Log = ({isFailure,message}) =>{
-  let style = {
-    background_color:"#EEEEEE",
-    color: "",
-    display: "none"
-  }
-  let msgServer;
-  if(isFailure == true){
-    style.color = "#DD0000";
-    msgServer = "Error";
-  }else{
-    msgServer = "Done";
-    style.color = "#00DD00"; 
-  }
-  return( 
-    <div style={style} id="Logger">
-      <p>
-       {msgServer} {message}
-      </p>
-    </div>
-  )
-}
+
 
 const Delete = async (iD,event) =>{
   event.preventDefault();
@@ -51,6 +30,33 @@ const App = () => {
   const [newFilter,setNewFilter] = useState('');
   const [newFailure,setNewFailure] = useState(false);
   const [newMessage,setNewMessage] = useState('');
+  const [styles,setStyles] = useState({
+    backgroundColor:"#9d9d9d",
+    border:"solid 0.3vh ",
+    borderRadius:".5vh",
+    paddingLeft:"2vh",
+    sizeFont:"5vh",
+    display: "block"
+  });
+
+  const Log = ({isFailure,message}) =>{
+    let msgServer;
+    if(isFailure == true){
+      styles.color = "#DD0000";
+      styles.borderColor  = "#DD0000";
+      msgServer = "Error";
+    }else{
+      msgServer = "Done";
+      // styles.color = "#00DD00"; 
+    }
+    return( 
+      <div style={styles} id="Logger">
+        <p>
+         {msgServer} {message}
+        </p>
+      </div>
+    )
+  }
 
   const ShowLog = (message,isFailure) =>{
     setNewFailure(isFailure);
@@ -140,7 +146,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <ShowPersons props={persons} filter={newFilter} />
+      <ShowPersons props={persons} filter={newFilter}/>
     </div>
   )
 }

@@ -36,18 +36,15 @@ const App = () => {
     borderRadius:".5vh",
     paddingLeft:"2vh",
     sizeFont:"5vh",
-    display: "block"
+    display: "none"
   });
 
   const Log = ({isFailure,message}) =>{
     let msgServer;
     if(isFailure == true){
-      styles.color = "#DD0000";
-      styles.borderColor  = "#DD0000";
       msgServer = "Error";
     }else{
       msgServer = "Done";
-      // styles.color = "#00DD00"; 
     }
     return( 
       <div style={styles} id="Logger">
@@ -61,7 +58,13 @@ const App = () => {
   const ShowLog = (message,isFailure) =>{
     setNewFailure(isFailure);
     setNewMessage(message);
-    document.getElementById("Logger").style = "display:block";
+    let colorer = "";
+    if(isFailure == true){
+      colorer = "#DD0000";
+    }else{
+      colorer = "#00DD00";
+    }
+    setStyles(hlp => ({...hlp,color:colorer,borderColor:colorer,display:"block"}));
   }
 
   const AddName = async (event) =>{
@@ -88,6 +91,7 @@ const App = () => {
         window.location.reload();
         persons.at(Number(response.data.id)).number = response.data.number;
       });
+      ShowLog(`${newName} have edited`,false);
     }
     else{
       ShowLog('succesfully added new number',false);

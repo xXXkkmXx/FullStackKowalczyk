@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
 import OnSearch from './OnSearch';
 
 const URL = `https://studies.cs.helsinki.fi/restcountries/api/all`;

@@ -1,10 +1,5 @@
+import Wheather from "./Wheather";
 import { useState } from "react";
-
-const Langs = ({langs}) =>{
-    return(
-        langs.map((item) => <li>{item.values}</li>)
-    )
-}
 
 const OnSearch = ({countries,name}) => {
     const [contry,setCountry] = useState({});
@@ -22,15 +17,16 @@ const OnSearch = ({countries,name}) => {
           )
         )  
     }else{   
-        console.log(contry.languages);
         return(
          <div>
             <h1>{contry.name.common}</h1>
             <p>capital: {contry.capital}</p>
             <p>area: {contry.area}</p>
             <h2>languages:</h2>
-            {/* <Langs langs={contry.languages}/> */}
+            {Object.values(contry.languages || {}).join(' ')}
             <p><img src={contry.flags.png}/></p>
+            <h1>Wheather:</h1>
+            <Wheather Country={contry}/>
          </div>
         )   
     }

@@ -41,7 +41,7 @@ app.get('/info',(request,response)=>{
     numbers.map(item=>{
         numberPeople += 1
     })
-    response.send(`<h2>${numberPeople}</h2>`)
+    response.send(`<h2>${numberPeople}</h2><h3>${body.time}</h3>`)
 });
 
 app.listen(PORT,()=>{

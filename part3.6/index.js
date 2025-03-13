@@ -1,7 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 numbers = [
     { 
@@ -26,8 +27,18 @@ numbers = [
     }
 ];
 
+app.use(cors());
 app.use(express.json());
-app.use(morgan("short"));
+app.use(morgan((tkn,req,res)=>{
+  return[
+    '\x1b[32m',
+    tkn.method(req,res),
+    tkn['url'](req,res),
+    tkn.status(req,res),'-',
+    tkn['response-time'](req,res), 'ms',
+    '\x1b[00m'
+  ].join(' ')
+}))
 
 app.get('/',(request,response)=>{
     response.send("<h1>Hello world</h1>");
@@ -75,11 +86,9 @@ app.get('/info',(request,response)=>{
     numbers.map(item=>{
         numberPeople += 1
     })
-    response.send(`<h2>${numberPeople}</h2><h3>${body.time}</h3>`)
+    response.send(`<h2>Phonebook has info for ${numberPeople} people</h2><h3>${body.time}</h3>`)
 });
 
 app.listen(PORT,()=>{
     console.log(`\x1b[32mServer is running on port ${PORT}\x1b[00m`);
-    console.log('/\\_/\\');
-    console.log('|. .|');
 });

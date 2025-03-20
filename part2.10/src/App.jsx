@@ -1,7 +1,7 @@
 import { useState,useEffect } from 'react'
 import  axios  from 'axios';
 
-const URL = 'http://localhost:3001/api/persons';
+const URL = 'api/persons/';
 
 const ShowPersons = ({props,filter}) =>{
   let names;

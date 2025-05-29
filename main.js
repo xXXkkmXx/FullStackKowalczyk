@@ -13,7 +13,7 @@ const blogSchema = mongoose.Schema({
 const Blog = mongoose.model('Blog', blogSchema)
 
 const mongoUrl = 'mongodb+srv://jamax382:DTHAdOrm0jYpnsWi@fullstackproject.4xxwf.mongodb.net/BlogBased?retryWrites=true&w=majority&appName=FullstackProject'
-mongoose.connect(mongoUrl)
+mongoose.connect(mongoUrl).then(()=>{console.log("mongo connected correctly")})
 
 app.use(express.json())
 
@@ -24,10 +24,14 @@ app.get('/api/blogs', (request, response) => {
 })
 
 app.post('/api/blogs', (request, response) => {
-  const blog = new Blog(request.body)
+  const content = request.body;
+  const blog = new Blog(content);
 
   blog.save().then((result) => {
     response.status(201).json(result)
+  })
+  .catch((err)=>{
+    response.status(500).json({error:'failed to post a blog'})
   })
 })
 

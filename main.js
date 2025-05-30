@@ -1,19 +1,8 @@
 const express = require('express')
-const mongoose = require('mongoose')
-
 const app = express()
 
-const blogSchema = mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number,
-})
-
-const Blog = mongoose.model('Blog', blogSchema)
-
-const mongoUrl = 'mongodb+srv://jamax382:DTHAdOrm0jYpnsWi@fullstackproject.4xxwf.mongodb.net/BlogBased?retryWrites=true&w=majority&appName=FullstackProject'
-mongoose.connect(mongoUrl).then(()=>{console.log("mongo connected correctly")})
+const Blog = require('./models/blog')
+const Mongo = require('./mongo/mongo')
 
 app.use(express.json())
 
@@ -23,16 +12,27 @@ app.get('/api/blogs', (request, response) => {
   })
 })
 
-app.post('/api/blogs', (request, response) => {
-  const content = request.body;
-  const blog = new Blog(content);
+app.post('/api/blogs', async (request, response) => {
 
-  blog.save().then((result) => {
-    response.status(201).json(result)
+  const {title,author,url,likes} = request.body;
+
+  if(!title || !author || !url){
+    return response.status(400).json({error: "Title, author and url are required"});
+  }
+
+  const blog = new Blog({
+    title: title,
+    author: author,
+    url: url,
+    likes: likes || 0
   })
-  .catch((err)=>{
-    response.status(500).json({error:'failed to post a blog'})
-  })
+
+  try{
+    const savedBlog = await blog.save();
+    response.status(201).json(savedBlog);
+  }catch(error){
+    response.status(500).json({error:"Can't add a blog"});
+  }
 })
 
 const PORT = 3003
